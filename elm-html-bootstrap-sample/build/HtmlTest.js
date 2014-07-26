@@ -1809,6 +1809,29 @@ Elm.HtmlTest.make = function (_elm) {
    var Text = Elm.Text.make(_elm);
    var Time = Elm.Time.make(_elm);
    var _op = {};
+   var buttonLinkTo = F2(function (txt,
+   url) {
+      return A4(Html.node,
+      "a",
+      _L.fromArray([A2(Html._op[":="],
+                   "href",
+                   url)
+                   ,A2(Html._op[":="],
+                   "className",
+                   "btn btn-primary btn-lg")]),
+      _L.fromArray([]),
+      _L.fromArray([Html.text(txt)]));
+   });
+   var linkTo = F2(function (txt,
+   url) {
+      return A4(Html.node,
+      "a",
+      _L.fromArray([A2(Html._op[":="],
+      "href",
+      url)]),
+      _L.fromArray([]),
+      _L.fromArray([Html.text(txt)]));
+   });
    var data2line = function (_v0) {
       return function () {
          switch (_v0.ctor)
@@ -1892,36 +1915,24 @@ Elm.HtmlTest.make = function (_elm) {
                                 "p",
                                 _L.fromArray([]),
                                 _L.fromArray([]),
-                                _L.fromArray([A4(Html.node,
-                                             "a",
-                                             _L.fromArray([A2(Html._op[":="],
-                                             "href",
-                                             "https://github.com/evancz/elm-html")]),
-                                             _L.fromArray([]),
-                                             _L.fromArray([Html.text("Elm-html")]))
+                                _L.fromArray([A2(linkTo,
+                                             "Elm-html",
+                                             "https://github.com/evancz/elm-html")
                                              ,Html.text("で")
-                                             ,A4(Html.node,
-                                             "a",
-                                             _L.fromArray([A2(Html._op[":="],
-                                             "href",
-                                             "http://getbootstrap.com/")]),
-                                             _L.fromArray([]),
-                                             _L.fromArray([Html.text("Twitter bootstrap")]))
+                                             ,A2(linkTo,
+                                             "Twitter bootstrap",
+                                             "http://getbootstrap.com/")
                                              ,Html.text("連携しています。")]))
                                 ,A4(Html.node,
                                 "p",
                                 _L.fromArray([]),
                                 _L.fromArray([]),
-                                _L.fromArray([A4(Html.node,
-                                "a",
-                                _L.fromArray([A2(Html._op[":="],
-                                             "className",
-                                             "btn btn-primary btn-lg")
-                                             ,A2(Html._op[":="],
-                                             "href",
-                                             "http://elm-lang.org/")]),
-                                _L.fromArray([]),
-                                _L.fromArray([Html.text("もっと学ぼう")]))]))]))
+                                _L.fromArray([A2(buttonLinkTo,
+                                             "もっと学ぼう",
+                                             "http://elm-lang.org/")
+                                             ,A2(buttonLinkTo,
+                                             "ソースコード",
+                                             "HtmlTest.elm")]))]))
                    ,tbl(dat)]))]));
    };
    var display = function (list) {
@@ -1942,6 +1953,8 @@ Elm.HtmlTest.make = function (_elm) {
    _elm.HtmlTest.values = {_op: _op
                           ,data2line: data2line
                           ,tbl: tbl
+                          ,linkTo: linkTo
+                          ,buttonLinkTo: buttonLinkTo
                           ,body: body
                           ,display: display
                           ,main: main};

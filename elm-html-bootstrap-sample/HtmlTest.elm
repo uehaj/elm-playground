@@ -21,17 +21,21 @@ tbl dat = node "table" ["className" := "table table-striped table-bordered table
          (map data2line dat)
       ]
 
+linkTo txt url = node "a" ["href":=url] [] [text txt]
+buttonLinkTo txt url = node "a" ["href":=url,"className":="btn btn-primary btn-lg"] [] [text txt]
+
 body : [(Int,Int)] -> Html
 body dat = node "div" ["className":="navbar navbar-default navbar-fixed-top"] ["padding-top":= px 10] [
          node "div" ["className":="container"] [] [
-           node "div" ["className":="jumbotron"] [] [
-             node "h1" [] [] [ text "Elm/Twitter Bootstrap" ]
-             , node "p" [] [] [ node "a" ["href":="https://github.com/evancz/elm-html"] [] [text "Elm-html"]
+           node "div" ["className":="jumbotron"] []
+             [ node "h1" [] [] [ text "Elm/Twitter Bootstrap" ]
+             , node "p" [] [] [ "Elm-html" `linkTo` "https://github.com/evancz/elm-html"
                               , text "で"
-                              , node "a" ["href":="http://getbootstrap.com/"] [] [text "Twitter bootstrap" ]
+                              , "Twitter bootstrap" `linkTo` "http://getbootstrap.com/" 
                               , text "連携しています。"]
-             , node "p" [] [] [
-               node "a" ["className":="btn btn-primary btn-lg", "href":="http://elm-lang.org/"] [] [ text "もっと学ぼう" ]
+             , node "p" [] []
+             [ "もっと学ぼう" `buttonLinkTo` "http://elm-lang.org/"
+             , "ソースコード" `buttonLinkTo` "HtmlTest.elm"
              ]
            ]
            , tbl dat
