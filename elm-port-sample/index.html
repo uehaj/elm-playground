@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Elm And Twitter bootstrap</title>
+  <script type="text/javascript" src="http://elm-lang.org/elm-runtime.js"></script>
+  <script type="text/javascript" src="build/PortTest.js"></script>
+</head>
+
+<body>
+  <div id="portTest" style="width:50%; height:400px;" ></div>
+</body>
+
+<script type="text/javascript">
+var div = document.getElementById('portTest');
+
+// embed our Elm program in that <div>
+elmModule = Elm.embed(Elm.PortTest, div, {"evalIn": "initial"});
+elmModule.ports.evalOut.subscribe(jsEval);
+function jsEval(exp) { elmModule.ports.evalIn.send(eval(exp).toString()); }
+
+</script>
+
+</html>
