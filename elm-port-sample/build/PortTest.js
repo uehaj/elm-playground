@@ -36,7 +36,7 @@ Elm.PortTest.make = function (_elm) {
    Native.Ports.incomingSignal(function (v) {
       return typeof v === "string" || typeof v === "object" && v instanceof String ? v : _E.raise("invalid input, expecting JSString but got " + v);
    }));
-   var btnInp = Graphics.Input.input("S");
+   var btnInp = Graphics.Input.input("new Date()");
    var btn = function (fldCont) {
       return A3(Graphics.Input.button,
       btnInp.handle,
