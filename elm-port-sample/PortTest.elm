@@ -7,7 +7,7 @@ inp : Input F.Content
 inp = input F.noContent
 
 btnInp : Input String
-btnInp = input "new Date()"
+btnInp = input "new Date().toString()"
 
 fld fldCont = F.field F.defaultStyle inp.handle id "JSの式を入力して下さい" fldCont
 btn fldCont = button btnInp.handle fldCont.string "Eval"
