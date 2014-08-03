@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Call JS from Elm</title>
+  <script type="text/javascript" src="http://elm-lang.org/elm-runtime.js"></script>
+  <script type="text/javascript" src="build/PiByBall.js"></script>
+</head>
+
+<body>
+  <div id="pi" width="100%"></div>
+</body>
+
+<script type="text/javascript">
+var div = document.getElementById('pi');
+
+// embed our Elm program in that <div>
+elmModule = Elm.embed(Elm.PiByBall, div);
+</script>
+
+</html>
