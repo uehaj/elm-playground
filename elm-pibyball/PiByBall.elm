@@ -64,11 +64,11 @@ M1とM2の質量をそれぞれm1,m2としたとき、m1とm2の比率<br/>
 的には以下のようになります。
 
 <table border="1">
-<tr><th>N</th><th>左にある丸の重さ=100^N</th><th>右にある質点の重さ</th></tr>
-<tr><td>0</td><td>1</td><td>1</td></tr>
-<tr><td>1</td><td>100</td><td>1</td></tr>
-<tr><td>2</td><td>10000</td><td>1</td></tr>
-<tr><td>3</td><td>1000000</td><td>1</td></tr>
+<tr><th>N</th><th>M1の質量(100^N) : M2の質量</th></tr>
+<tr><td>0</td><td>1 : 1</td></tr>
+<tr><td>1</td><td>100 : 1</td></tr>
+<tr><td>2</td><td>10000 : 1</td></tr>
+<tr><td>3</td><td>1000000 : 1</td></tr>
 <tr><td>:</td><td>:</td><td>:</td></tr>
 </table>
 
