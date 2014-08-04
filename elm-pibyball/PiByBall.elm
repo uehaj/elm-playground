@@ -69,7 +69,7 @@ M1とM2の質量をそれぞれm1,m2としたとき、m1とm2の比率<br/>
 <tr><td>1</td><td>100 : 1</td></tr>
 <tr><td>2</td><td>10000 : 1</td></tr>
 <tr><td>3</td><td>1000000 : 1</td></tr>
-<tr><td>:</td><td>:</td><td>:</td></tr>
+<tr><td>:</td><td>:</td></tr>
 </table>
 
 ### シミュレーション
