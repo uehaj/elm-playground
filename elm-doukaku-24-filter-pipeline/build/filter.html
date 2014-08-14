@@ -1,0 +1,781 @@
+<!DOCTYPE HTML>
+<html><head><meta charset="UTF-8"><title>filter</title><script type="text/javascript" src="elm-runtime.js"></script><script type="text/javascript">Elm.Native.Lazy = {};
+Elm.Native.Lazy.make = function(elm) {
+    elm.Native = elm.Native || {};
+    elm.Native.Lazy = elm.Native.Lazy || {};
+
+    if (elm.Native.Lazy.values) return elm.Native.Lazy.values;
+
+    var Utils = Elm.Native.Utils.make(elm);
+    
+    function lazy(f) {
+        var value = {};
+        var isEvaled = false;
+        var memoed = function(x) {
+            if(!isEvaled) {
+                value = f(Utils.Tuple0);
+                isEvaled = true;
+            }
+            return value;
+        }
+        return memoed;
+    }
+
+    return elm.Native.Lazy.values = {
+        lazy : lazy
+    };
+};
+Elm.Filter = Elm.Filter || {};
+Elm.Filter.make = function (_elm) {
+   "use strict";
+   _elm.Filter = _elm.Filter || {};
+   if (_elm.Filter.values)
+   return _elm.Filter.values;
+   var _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _A = _N.Array.make(_elm),
+   _E = _N.Error.make(_elm),
+   $moduleName = "Filter";
+   var Basics = Elm.Basics.make(_elm);
+   var Char = Elm.Char.make(_elm);
+   var Color = Elm.Color.make(_elm);
+   var Debug = Elm.Debug.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Collage = Elm.Graphics.Collage.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Element = Elm.Graphics.Element.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Input = Elm.Graphics.Input.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Input = Graphics.Input || {};
+   Graphics.Input.Field = Elm.Graphics.Input.Field.make(_elm);
+   var Lazy = Lazy || {};
+   Lazy.Stream = Elm.Lazy.Stream.make(_elm);
+   var List = Elm.List.make(_elm);
+   var Maybe = Elm.Maybe.make(_elm);
+   var Native = Native || {};
+   Native.Json = Elm.Native.Json.make(_elm);
+   var Native = Native || {};
+   Native.Ports = Elm.Native.Ports.make(_elm);
+   var Signal = Elm.Signal.make(_elm);
+   var String = Elm.String.make(_elm);
+   var Text = Elm.Text.make(_elm);
+   var Time = Elm.Time.make(_elm);
+   var _op = {};
+   var desc = Text.markdown("<div style=\"height:0;width:0;\">&nbsp;</div><a href=\"http://yhpg.doorkeeper.jp/\">オフラインどう書く過去問題</a><a href=\"http://nabetani.sakura.ne.jp/hena/ord24eliseq/\">#24 多段階選抜</a>\n<table border>\n<tr><th>\n記号\n<th>\n意味\n</tr>\n<tr><td>\n2〜9\n<td>\n2〜9 の倍数番目を撤去(先頭が1番目であることに注意)\n</tr>\n<tr><td>\nS\n<td>\n平方数の次を撤去\n</tr>\n<tr><td>\ns\n<td>\n平方数の直前を撤去\n</tr>\n<tr><td>\nC\n<td>\n立方数の直後を撤去\n</tr>\n<tr><td>\nc\n<td>\n立方数の直前を撤去\n</tr>\n<tr><td>\nh\n<td>\n先頭の100件を撤去\n</tr>\n</table>\n<p><br></p><div style=\"height:0;width:0;\">&nbsp;</div>",
+   "90:8");
+   var resultLength = Graphics.Input.input(10);
+   var resultLengthField = A2(Graphics.Input.dropDown,
+   resultLength.handle,
+   _L.fromArray([{ctor: "_Tuple2"
+                 ,_0: "10"
+                 ,_1: 10}
+                ,{ctor: "_Tuple2"
+                 ,_0: "20"
+                 ,_1: 20}]));
+   var filterString = Graphics.Input.input(Graphics.Input.Field.noContent);
+   var filterField = function (fldCont) {
+      return A5(Graphics.Input.Field.field,
+      Graphics.Input.Field.defaultStyle,
+      filterString.handle,
+      Basics.id,
+      "記号列を入力",
+      fldCont);
+   };
+   var allSteps = function (x) {
+      return function () {
+         var steps = F2(function (i,
+         x) {
+            return A2(List.map,
+            function (it) {
+               return String.fromList({ctor: "::"
+                                      ,_0: i
+                                      ,_1: String.toList(it)});
+            },
+            x);
+         });
+         return A3(List.foldr,
+         F2(function (i,acc) {
+            return _L.append(_L.fromArray([String.fromList(_L.fromArray([i]))]),
+            A2(steps,i,acc));
+         }),
+         _L.fromArray([]),
+         String.toList(x));
+      }();
+   };
+   var filter_h = Lazy.Stream.drop(100);
+   var isCubed = function (n) {
+      return A2(List.any,
+      function (x) {
+         return _U.eq(n,x * x * x);
+      },
+      _L.range(1,(n / 2 | 0) + 1));
+   };
+   var filter_C = function (x) {
+      return Lazy.Stream.map(Basics.fst)(Lazy.Stream.filter(function (_v2) {
+         return function () {
+            switch (_v2.ctor)
+            {case "_Tuple2":
+               return Basics.not(isCubed(_v2._1));}
+            _E.Case($moduleName,
+            "on line 32, column 62 to 76");
+         }();
+      })(A2(Lazy.Stream.zip,
+      x,
+      A2(Lazy.Stream.cons,
+      0,
+      function (_v0) {
+         return function () {
+            return x;
+         }();
+      }))));
+   };
+   var filter_c = function (x) {
+      return Lazy.Stream.map(Basics.fst)(Lazy.Stream.filter(function (_v6) {
+         return function () {
+            switch (_v6.ctor)
+            {case "_Tuple2":
+               return Basics.not(isCubed(_v6._1));}
+            _E.Case($moduleName,
+            "on line 35, column 54 to 68");
+         }();
+      })(A2(Lazy.Stream.zip,
+      x,
+      Lazy.Stream.tail(x))));
+   };
+   var isSquare = function (n) {
+      return A2(List.any,
+      function (x) {
+         return _U.eq(n,x * x);
+      },
+      _L.range(1,(n / 2 | 0) + 1));
+   };
+   var filter_S = function (x) {
+      return Lazy.Stream.map(Basics.fst)(Lazy.Stream.filter(function (_v12) {
+         return function () {
+            switch (_v12.ctor)
+            {case "_Tuple2":
+               return Basics.not(isSquare(_v12._1));}
+            _E.Case($moduleName,
+            "on line 25, column 62 to 77");
+         }();
+      })(A2(Lazy.Stream.zip,
+      x,
+      A2(Lazy.Stream.cons,
+      0,
+      function (_v10) {
+         return function () {
+            return x;
+         }();
+      }))));
+   };
+   var filter_s = function (x) {
+      return Lazy.Stream.map(Basics.fst)(Lazy.Stream.filter(function (_v16) {
+         return function () {
+            switch (_v16.ctor)
+            {case "_Tuple2":
+               return Basics.not(isSquare(_v16._1));}
+            _E.Case($moduleName,
+            "on line 28, column 54 to 69");
+         }();
+      })(A2(Lazy.Stream.zip,
+      x,
+      Lazy.Stream.tail(x))));
+   };
+   var naturals = A2(Lazy.Stream.iterate,
+   function (it) {
+      return it + 1;
+   },
+   1);
+   var init = Maybe.Just(naturals);
+   var filter_n = F2(function (n,
+   stream) {
+      return A2(Lazy.Stream.map,
+      Basics.snd,
+      A2(Lazy.Stream.filter,
+      function (_v20) {
+         return function () {
+            switch (_v20.ctor)
+            {case "_Tuple2":
+               return !_U.eq(A2(Basics.mod,
+                 _v20._0,
+                 n),
+                 0);}
+            _E.Case($moduleName,
+            "on line 21, column 51 to 66");
+         }();
+      },
+      A2(Lazy.Stream.zip,
+      naturals,
+      stream)));
+   });
+   var char2func = F2(function (ch,
+   maybeStream) {
+      return function () {
+         switch (maybeStream.ctor)
+         {case "Just":
+            return _U.cmp(_U.chr("2"),
+              ch) < 1 && _U.cmp(ch,
+              _U.chr("9")) < 1 ? Maybe.Just(A2(filter_n,
+              Char.toCode(ch) - Char.toCode(_U.chr("0")),
+              maybeStream._0)) : _U.eq(ch,
+              _U.chr("c")) ? Maybe.Just(filter_c(maybeStream._0)) : _U.eq(ch,
+              _U.chr("C")) ? Maybe.Just(filter_C(maybeStream._0)) : _U.eq(ch,
+              _U.chr("s")) ? Maybe.Just(filter_s(maybeStream._0)) : _U.eq(ch,
+              _U.chr("S")) ? Maybe.Just(filter_S(maybeStream._0)) : _U.eq(ch,
+              _U.chr("h")) ? Maybe.Just(filter_h(maybeStream._0)) : Maybe.Nothing;
+            case "Nothing":
+            return Maybe.Nothing;}
+         _E.Case($moduleName,
+         "between lines 42 and 50");
+      }();
+   });
+   var solve = function (s) {
+      return A3(List.foldl,
+      F2(function (ch,acc) {
+         return A2(char2func,ch,acc);
+      }),
+      init,
+      String.toList(s));
+   };
+   var dispResultStep = F2(function (siz,
+   _v26) {
+      return function () {
+         switch (_v26.ctor)
+         {case "_Tuple2":
+            return A2(Graphics.Element.flow,
+              Graphics.Element.down,
+              _L.fromArray([A2(Graphics.Element.flow,
+                           Graphics.Element.right,
+                           _L.fromArray([Text.asText(_v26._0)
+                                        ,Text.plainText("↓")]))
+                           ,A2(Maybe.maybe,
+                           Text.plainText("undefined"),
+                           function ($) {
+                              return Text.asText(Lazy.Stream.take(siz)($));
+                           })(solve(_v26._1))]));}
+         _E.Case($moduleName,
+         "between lines 58 and 59");
+      }();
+   });
+   var dispResultSteps = F2(function (siz,
+   xs) {
+      return List.map(dispResultStep(siz))(A2(List.zip,
+      String.toList(xs),
+      allSteps(xs)));
+   });
+   var main = function () {
+      var disp = F2(function (xs,
+      siz) {
+         return A2(Graphics.Element.flow,
+         Graphics.Element.down,
+         _L.fromArray([desc
+                      ,A2(Graphics.Element.beside,
+                      A2(Graphics.Element.beside,
+                      filterField(xs),
+                      Text.plainText("長さ")),
+                      resultLengthField)
+                      ,Text.asText(Lazy.Stream.take(siz)(naturals))
+                      ,A2(Graphics.Element.flow,
+                      Graphics.Element.down,
+                      A2(dispResultSteps,
+                      siz,
+                      xs.string))]));
+      });
+      return A2(Signal._op["~"],
+      A2(Signal._op["<~"],
+      disp,
+      filterString.signal),
+      resultLength.signal);
+   }();
+   _elm.Filter.values = {_op: _op
+                        ,naturals: naturals
+                        ,init: init
+                        ,filter_n: filter_n
+                        ,isSquare: isSquare
+                        ,filter_S: filter_S
+                        ,filter_s: filter_s
+                        ,isCubed: isCubed
+                        ,filter_C: filter_C
+                        ,filter_c: filter_c
+                        ,filter_h: filter_h
+                        ,char2func: char2func
+                        ,solve: solve
+                        ,dispResultStep: dispResultStep
+                        ,dispResultSteps: dispResultSteps
+                        ,allSteps: allSteps
+                        ,filterString: filterString
+                        ,filterField: filterField
+                        ,resultLength: resultLength
+                        ,resultLengthField: resultLengthField
+                        ,desc: desc
+                        ,main: main};
+   return _elm.Filter.values;
+};Elm.Lazy = Elm.Lazy || {};
+Elm.Lazy.Stream = Elm.Lazy.Stream || {};
+Elm.Lazy.Stream.make = function (_elm) {
+   "use strict";
+   _elm.Lazy = _elm.Lazy || {};
+   _elm.Lazy.Stream = _elm.Lazy.Stream || {};
+   if (_elm.Lazy.Stream.values)
+   return _elm.Lazy.Stream.values;
+   var _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _A = _N.Array.make(_elm),
+   _E = _N.Error.make(_elm),
+   $moduleName = "Lazy.Stream";
+   var Basics = Elm.Basics.make(_elm);
+   var Color = Elm.Color.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Collage = Elm.Graphics.Collage.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Element = Elm.Graphics.Element.make(_elm);
+   var Lazy = Elm.Lazy.make(_elm);
+   var List = Elm.List.make(_elm);
+   var Maybe = Elm.Maybe.make(_elm);
+   var Native = Native || {};
+   Native.Json = Elm.Native.Json.make(_elm);
+   var Native = Native || {};
+   Native.Ports = Elm.Native.Ports.make(_elm);
+   var Signal = Elm.Signal.make(_elm);
+   var String = Elm.String.make(_elm);
+   var Text = Elm.Text.make(_elm);
+   var Time = Elm.Time.make(_elm);
+   var _op = {};
+   var S = function (a) {
+      return {ctor: "S",_0: a};
+   };
+   var force = function (_v0) {
+      return function () {
+         switch (_v0.ctor)
+         {case "S":
+            return Lazy.force(_v0._0);}
+         _E.Case($moduleName,
+         "on line 56, column 15 to 27");
+      }();
+   };
+   var head = function ($) {
+      return Basics.fst(force($));
+   };
+   var tail = function ($) {
+      return Basics.snd(force($));
+   };
+   var splitAt = F2(function (n,
+   xs) {
+      return function () {
+         switch (n)
+         {case 0: return {ctor: "_Tuple2"
+                         ,_0: _L.fromArray([])
+                         ,_1: xs};}
+         return function () {
+            var $ = A2(splitAt,
+            n - 1,
+            tail(xs)),
+            heads = $._0,
+            end = $._1;
+            return {ctor: "_Tuple2"
+                   ,_0: {ctor: "::"
+                        ,_0: head(xs)
+                        ,_1: heads}
+                   ,_1: end};
+         }();
+      }();
+   });
+   var take = F2(function (n,xs) {
+      return Basics.fst(A2(splitAt,
+      n,
+      xs));
+   });
+   var drop = F2(function (n,xs) {
+      return Basics.snd(A2(splitAt,
+      n,
+      xs));
+   });
+   var sampleOn = F2(function (sig,
+   str) {
+      return function () {
+         var tails = A3(Signal.foldp,
+         function (_v4) {
+            return function () {
+               return tail;
+            }();
+         },
+         str,
+         sig);
+         return A2(Signal._op["<~"],
+         head,
+         tails);
+      }();
+   });
+   var splitWith = F2(function (p,
+   xs) {
+      return function () {
+         var $ = force(xs),
+         hd = $._0,
+         tl = $._1;
+         return function () {
+            var _v6 = p(hd);
+            switch (_v6)
+            {case false:
+               return {ctor: "_Tuple2"
+                      ,_0: _L.fromArray([])
+                      ,_1: xs};
+               case true: return function () {
+                    var $ = A2(splitWith,p,tl),
+                    taken = $._0,
+                    dropped = $._1;
+                    return {ctor: "_Tuple2"
+                           ,_0: {ctor: "::"
+                                ,_0: hd
+                                ,_1: taken}
+                           ,_1: dropped};
+                 }();}
+            _E.Case($moduleName,
+            "between lines 304 and 314");
+         }();
+      }();
+   });
+   var takeWhile = F2(function (p,
+   xs) {
+      return Basics.fst(A2(splitWith,
+      p,
+      xs));
+   });
+   var dropWhile = F2(function (p,
+   xs) {
+      return Basics.snd(A2(splitWith,
+      p,
+      xs));
+   });
+   var foldr = F2(function (f,xs) {
+      return function () {
+         var loop = function (xs) {
+            return Lazy.lazy(function (_v7) {
+               return function () {
+                  switch (_v7.ctor)
+                  {case "_Tuple0":
+                     return function () {
+                          var $ = force(xs),
+                          hd = $._0,
+                          tl = $._1;
+                          return Lazy.force(A2(f,
+                          hd,
+                          loop(tl)));
+                       }();}
+                  _E.Case($moduleName,
+                  "between lines 317 and 318");
+               }();
+            });
+         };
+         return loop(xs);
+      }();
+   });
+   var cons = F2(function (x,txs) {
+      return function () {
+         var mtxs = Lazy.lazy(txs);
+         return S(Lazy.lazy(function (_v9) {
+            return function () {
+               switch (_v9.ctor)
+               {case "_Tuple0":
+                  return {ctor: "_Tuple2"
+                         ,_0: x
+                         ,_1: Lazy.force(mtxs)};}
+               _E.Case($moduleName,
+               "on line 68, column 4 to 22");
+            }();
+         }));
+      }();
+   });
+   var repeat = function (x) {
+      return function () {
+         var go = cons(x)(function (_v11) {
+            return function () {
+               switch (_v11.ctor)
+               {case "_Tuple0": return go;}
+               _E.Case($moduleName,
+               "on line 117, column 38 to 40");
+            }();
+         });
+         return go;
+      }();
+   };
+   var cons$ = function ($) {
+      return S(Lazy.lazy($));
+   };
+   var iterate = F2(function (f,
+   x) {
+      return cons$(function (_v13) {
+         return function () {
+            switch (_v13.ctor)
+            {case "_Tuple0":
+               return {ctor: "_Tuple2"
+                      ,_0: x
+                      ,_1: A2(iterate,f,f(x))};}
+            _E.Case($moduleName,
+            "on line 94, column 4 to 22");
+         }();
+      });
+   });
+   var unfold = F2(function (f,s) {
+      return function () {
+         var loop = function (s) {
+            return cons$(function (_v15) {
+               return function () {
+                  switch (_v15.ctor)
+                  {case "_Tuple0":
+                     return function () {
+                          var $ = f(s),
+                          hd = $._0,
+                          s$ = $._1;
+                          return {ctor: "_Tuple2"
+                                 ,_0: hd
+                                 ,_1: loop(s$)};
+                       }();}
+                  _E.Case($moduleName,
+                  "between lines 105 and 106");
+               }();
+            });
+         };
+         return loop(s);
+      }();
+   });
+   var cycle = F2(function (x,xs) {
+      return function () {
+         var cycle$ = function (ys) {
+            return function () {
+               switch (ys.ctor)
+               {case "::":
+                  return cons(ys._0)(function (_v20) {
+                       return function () {
+                          switch (_v20.ctor)
+                          {case "_Tuple0":
+                             return cycle$(ys._1);}
+                          _E.Case($moduleName,
+                          "on line 133, column 22 to 31");
+                       }();
+                    });
+                  case "[]": return go;}
+               _E.Case($moduleName,
+               "between lines 130 and 134");
+            }();
+         };
+         var go = cons$(function (_v22) {
+            return function () {
+               switch (_v22.ctor)
+               {case "_Tuple0":
+                  return {ctor: "_Tuple2"
+                         ,_0: x
+                         ,_1: cycle$(xs)};}
+               _E.Case($moduleName,
+               "on line 135, column 21 to 33");
+            }();
+         });
+         return go;
+      }();
+   });
+   var map = F2(function (f,xs) {
+      return cons$(function (_v24) {
+         return function () {
+            switch (_v24.ctor)
+            {case "_Tuple0":
+               return {ctor: "_Tuple2"
+                      ,_0: f(head(xs))
+                      ,_1: A2(map,f,tail(xs))};}
+            _E.Case($moduleName,
+            "on line 147, column 4 to 32");
+         }();
+      });
+   });
+   var zipWith = F3(function (f,
+   xs,
+   ys) {
+      return cons$(function (_v26) {
+         return function () {
+            switch (_v26.ctor)
+            {case "_Tuple0":
+               return {ctor: "_Tuple2"
+                      ,_0: A2(f,head(xs),head(ys))
+                      ,_1: A3(zipWith,
+                      f,
+                      tail(xs),
+                      tail(ys))};}
+            _E.Case($moduleName,
+            "between lines 179 and 180");
+         }();
+      });
+   });
+   var apply = F2(function (fs,
+   xs) {
+      return A3(zipWith,
+      F2(function (x,y) {
+         return x(y);
+      }),
+      fs,
+      xs);
+   });
+   var zip = zipWith(F2(function (x,
+   y) {
+      return {ctor: "_Tuple2"
+             ,_0: x
+             ,_1: y};
+   }));
+   var scanl = F3(function (f,
+   init,
+   xs) {
+      return cons$(function (_v28) {
+         return function () {
+            switch (_v28.ctor)
+            {case "_Tuple0":
+               return {ctor: "_Tuple2"
+                      ,_0: init
+                      ,_1: A3(scanl,
+                      f,
+                      A2(f,head(xs),init),
+                      tail(xs))};}
+            _E.Case($moduleName,
+            "between lines 191 and 192");
+         }();
+      });
+   });
+   var filter = F2(function (p,
+   xs) {
+      return cons$(function (_v30) {
+         return function () {
+            switch (_v30.ctor)
+            {case "_Tuple0":
+               return function () {
+                    var $ = force(xs),
+                    hd = $._0,
+                    tl = $._1;
+                    return function () {
+                       var _v32 = p(hd);
+                       switch (_v32)
+                       {case false:
+                          return force(A2(filter,p,tl));
+                          case true:
+                          return {ctor: "_Tuple2"
+                                 ,_0: hd
+                                 ,_1: A2(filter,p,tl)};}
+                       _E.Case($moduleName,
+                       "between lines 251 and 253");
+                    }();
+                 }();}
+            _E.Case($moduleName,
+            "between lines 250 and 253");
+         }();
+      });
+   });
+   _elm.Lazy.Stream.values = {_op: _op
+                             ,head: head
+                             ,tail: tail
+                             ,force: force
+                             ,cons: cons
+                             ,cons$: cons$
+                             ,iterate: iterate
+                             ,unfold: unfold
+                             ,repeat: repeat
+                             ,cycle: cycle
+                             ,map: map
+                             ,apply: apply
+                             ,zip: zip
+                             ,zipWith: zipWith
+                             ,scanl: scanl
+                             ,take: take
+                             ,drop: drop
+                             ,splitAt: splitAt
+                             ,sampleOn: sampleOn
+                             ,filter: filter
+                             ,takeWhile: takeWhile
+                             ,dropWhile: dropWhile
+                             ,splitWith: splitWith};
+   return _elm.Lazy.Stream.values;
+};Elm.Lazy = Elm.Lazy || {};
+Elm.Lazy.make = function (_elm) {
+   "use strict";
+   _elm.Lazy = _elm.Lazy || {};
+   if (_elm.Lazy.values)
+   return _elm.Lazy.values;
+   var _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _A = _N.Array.make(_elm),
+   _E = _N.Error.make(_elm),
+   $moduleName = "Lazy";
+   var Basics = Elm.Basics.make(_elm);
+   var Color = Elm.Color.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Collage = Elm.Graphics.Collage.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Element = Elm.Graphics.Element.make(_elm);
+   var List = Elm.List.make(_elm);
+   var Maybe = Elm.Maybe.make(_elm);
+   var Native = Native || {};
+   Native.Json = Elm.Native.Json.make(_elm);
+   var Native = Native || {};
+   Native.Lazy = Elm.Native.Lazy.make(_elm);
+   var Native = Native || {};
+   Native.Ports = Elm.Native.Ports.make(_elm);
+   var Signal = Elm.Signal.make(_elm);
+   var String = Elm.String.make(_elm);
+   var Text = Elm.Text.make(_elm);
+   var Time = Elm.Time.make(_elm);
+   var _op = {};
+   var L = function (a) {
+      return {ctor: "L",_0: a};
+   };
+   var lazy = function (t) {
+      return L({_: {}
+               ,force: Native.Lazy.lazy(t)});
+   };
+   var force = function (_v0) {
+      return function () {
+         switch (_v0.ctor)
+         {case "L":
+            return _v0._0.force({ctor: "_Tuple0"});}
+         _E.Case($moduleName,
+         "on line 26, column 15 to 24");
+      }();
+   };
+   var map = F2(function (f,t) {
+      return lazy(function (_v3) {
+         return function () {
+            switch (_v3.ctor)
+            {case "_Tuple0":
+               return f(force(t));}
+            _E.Case($moduleName,
+            "on line 33, column 3 to 17");
+         }();
+      });
+   });
+   var apply = F2(function (f,x) {
+      return lazy(function (_v5) {
+         return function () {
+            switch (_v5.ctor)
+            {case "_Tuple0":
+               return A2(force,f,force(x));}
+            _E.Case($moduleName,
+            "on line 44, column 4 to 21");
+         }();
+      });
+   });
+   var bind = F2(function (x,k) {
+      return lazy(function (_v7) {
+         return function () {
+            switch (_v7.ctor)
+            {case "_Tuple0":
+               return force(k(force(x)));}
+            _E.Case($moduleName,
+            "on line 49, column 3 to 25");
+         }();
+      });
+   });
+   _elm.Lazy.values = {_op: _op
+                      ,force: force
+                      ,lazy: lazy
+                      ,map: map
+                      ,apply: apply
+                      ,bind: bind};
+   return _elm.Lazy.values;
+};</script></head><body><script type="text/javascript">Elm.fullscreen(Elm.Filter)</script><noscript></noscript></body></html>
