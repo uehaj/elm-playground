@@ -20,14 +20,18 @@ init = Just naturals
 filter_n : Int -> S.Stream a -> S.Stream a
 filter_n n stream = S.map snd (S.filter (\(a,b)->(a `mod` n) /= 0) (S.zip naturals stream)) -- 2〜9 の倍数番目を撤去(先頭が1番目であることに注意)
 
+isSquare : Int -> Bool
 isSquare n=any (\x->n==x*x) [1..n `div` 2+1]
+
 filter_S : S.Stream Int -> S.Stream Int
 filter_S x = S.zip x (S.cons 0 (\_->x)) |> S.filter (\(a,b)->not (isSquare b)) |> S.map fst -- 平方数の次を撤去
 
 filter_s : S.Stream Int -> S.Stream Int
 filter_s x = S.zip x (S.tail x) |> S.filter (\(a,b)->not (isSquare b)) |> S.map fst -- 平方数の直前を撤去
 
+isCubed : Int -> Bool
 isCubed n=any (\x->n==x*x*x) [1..n `div` 2+1]
+
 filter_C : S.Stream Int -> S.Stream Int
 filter_C x = S.zip x (S.cons 0 (\_->x)) |> S.filter (\(a,b)->not (isCubed b)) |> S.map fst -- 立方数の直後を撤去
 
@@ -37,6 +41,7 @@ filter_c x = S.zip x (S.tail x) |> S.filter (\(a,b)->not (isCubed b)) |> S.map f
 filter_h : S.Stream a -> S.Stream a
 filter_h = S.drop 100 -- 先頭の100件を撤去
 
+-- 入力文字に対応するフィルタ関数を返す。その関数について：入力文字が不正な文字(2-9,cCsSh以外)であったり、フィルタの入力がすでにNothingであった場合Nothingが返る。
 char2func : Char -> Maybe (S.Stream Int) -> Maybe (S.Stream Int)
 char2func ch maybeStream =
     case maybeStream of
@@ -49,7 +54,7 @@ char2func ch maybeStream =
                         | otherwise -> Nothing
       Nothing -> Nothing
 
--- 対応するフィルタ群を取得してfoldlで合成したものに初期リストを適用して結果を得る
+-- 入力文字列に対応するフィルタ関数群を取得し、そのすべてをfoldlで関数合成したものに初期リストを適用して結果を得る
 solve : String -> Maybe (S.Stream Int)
 solve s = foldl (\ch acc -> char2func ch acc) init (toList s)
 
@@ -82,7 +87,7 @@ filterField fldCont = F.field F.defaultStyle filterString.handle id "記号列�
 resultLength : Input Int
 resultLength = input 10
 
--- 結果の幅フィールド
+-- 結果の幅の選択入力フィールド
 resultLengthField : Element
 resultLengthField = dropDown resultLength.handle [ ("10", 10), ("20", 20) ]
 
