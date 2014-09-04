@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html><head><meta charset="UTF-8"><title>Leaf</title><script type="text/javascript" src="runtime/elm-runtime.js"></script><script type="text/javascript">Elm.Leaf = Elm.Leaf || {};
+<html><head><meta charset="UTF-8"><title>Leaf</title><script type="text/javascript" src="/usr/local/share/elm/compiler/elm-runtime.js"></script><script type="text/javascript">Elm.Leaf = Elm.Leaf || {};
 Elm.Leaf.make = function (_elm) {
    "use strict";
    _elm.Leaf = _elm.Leaf || {};
@@ -18,6 +18,7 @@ Elm.Leaf.make = function (_elm) {
    $Generator$Standard = Elm.Generator.Standard.make(_elm),
    $Graphics$Collage = Elm.Graphics.Collage.make(_elm),
    $Graphics$Element = Elm.Graphics.Element.make(_elm),
+   $IntRange = Elm.IntRange.make(_elm),
    $List = Elm.List.make(_elm),
    $Signal = Elm.Signal.make(_elm),
    $Window = Elm.Window.make(_elm);
@@ -78,10 +79,10 @@ Elm.Leaf.make = function (_elm) {
                }();
             }();
          });
-         return A3($List.foldl,
+         return A3($IntRange.foldl,
          addPoints(dx),
          initState,
-         _L.range(0,num));
+         A2($IntRange.to,0,num));
       }();
    });
    var State = F2(function (a,b) {
