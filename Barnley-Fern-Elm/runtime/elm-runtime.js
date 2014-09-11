@@ -3434,7 +3434,10 @@ Elm.Native.Keyboard.make = function(elm) {
         });
     }
 
-    var lastPressed = downEvents;
+    var lastPressed = A2(Signal.lift, function(e) {
+        return e ? e.keyCode : 0;
+    }, downEvents);
+    downEvents.defaultNumberOfKids += 1;
 
     return elm.Native.Keyboard.values = {
         isDown:is,
@@ -4193,7 +4196,7 @@ Elm.Basics.make = function (_elm) {
               _v0._0,
               _v0._1);}
          _E.Case($moduleName,
-         "on line 423, column 19 to 24");
+         "on line 419, column 19 to 24");
       }();
    });
    var curry = F3(function (f,
@@ -4211,7 +4214,7 @@ Elm.Basics.make = function (_elm) {
          switch (_v4.ctor)
          {case "_Tuple2": return _v4._1;}
          _E.Case($moduleName,
-         "on line 407, column 13 to 14");
+         "on line 403, column 13 to 14");
       }();
    };
    var fst = function (_v8) {
@@ -4219,7 +4222,7 @@ Elm.Basics.make = function (_elm) {
          switch (_v8.ctor)
          {case "_Tuple2": return _v8._0;}
          _E.Case($moduleName,
-         "on line 403, column 13 to 14");
+         "on line 399, column 13 to 14");
       }();
    };
    var always = F2(function (a,
@@ -4236,9 +4239,6 @@ Elm.Basics.make = function (_elm) {
    });
    _op["|>"] = F2(function (x,f) {
       return f(x);
-   });
-   _op["."] = F3(function (g,f,x) {
-      return g(f(x));
    });
    _op[">>"] = F3(function (f,
    g,
@@ -5991,27 +5991,27 @@ Elm.Dict.make = function (_elm) {
       t2);
    });
    _elm.Dict.values = {_op: _op
-                      ,values: values
-                      ,update: update
-                      ,union: union
-                      ,toList: toList
-                      ,singleton: singleton
-                      ,remove: remove
-                      ,partition: partition
-                      ,member: member
-                      ,map: map
-                      ,keys: keys
-                      ,intersect: intersect
-                      ,insert: insert
-                      ,getOrFail: getOrFail
-                      ,getOrElse: getOrElse
-                      ,get: get
-                      ,fromList: fromList
-                      ,foldr: foldr
-                      ,foldl: foldl
-                      ,filter: filter
                       ,empty: empty
-                      ,diff: diff};
+                      ,singleton: singleton
+                      ,insert: insert
+                      ,update: update
+                      ,get: get
+                      ,getOrElse: getOrElse
+                      ,getOrFail: getOrFail
+                      ,remove: remove
+                      ,member: member
+                      ,filter: filter
+                      ,partition: partition
+                      ,foldl: foldl
+                      ,foldr: foldr
+                      ,map: map
+                      ,union: union
+                      ,intersect: intersect
+                      ,diff: diff
+                      ,keys: keys
+                      ,values: values
+                      ,toList: toList
+                      ,fromList: fromList};
    return _elm.Dict.values;
 };Elm.Either = Elm.Either || {};
 Elm.Either.make = function (_elm) {
@@ -6615,12 +6615,12 @@ Elm.Maybe.make = function (_elm) {
       }();
    });
    _elm.Maybe.values = {_op: _op
-                       ,Just: Just
-                       ,Nothing: Nothing
                        ,maybe: maybe
-                       ,map: map
+                       ,isJust: isJust
                        ,isNothing: isNothing
-                       ,isJust: isJust};
+                       ,map: map
+                       ,Just: Just
+                       ,Nothing: Nothing};
    return _elm.Maybe.values;
 };Elm.Mouse = Elm.Mouse || {};
 Elm.Mouse.make = function (_elm) {
@@ -6811,21 +6811,21 @@ Elm.Set.make = function (_elm) {
       toList(s)));
    });
    _elm.Set.values = {_op: _op
-                     ,union: union
-                     ,toList: toList
-                     ,singleton: singleton
-                     ,remove: remove
-                     ,partition: partition
-                     ,member: member
-                     ,map: map
-                     ,intersect: intersect
-                     ,insert: insert
-                     ,fromList: fromList
-                     ,foldr: foldr
-                     ,foldl: foldl
-                     ,filter: filter
                      ,empty: empty
-                     ,diff: diff};
+                     ,singleton: singleton
+                     ,insert: insert
+                     ,remove: remove
+                     ,member: member
+                     ,foldl: foldl
+                     ,foldr: foldr
+                     ,map: map
+                     ,filter: filter
+                     ,partition: partition
+                     ,union: union
+                     ,intersect: intersect
+                     ,diff: diff
+                     ,toList: toList
+                     ,fromList: fromList};
    return _elm.Set.values;
 };Elm.Signal = Elm.Signal || {};
 Elm.Signal.make = function (_elm) {
@@ -7296,14 +7296,14 @@ Elm.Transform2D.make = function (_elm) {
    var identity = $Native$Transform2D.identity;
    var Transform2D = {ctor: "Transform2D"};
    _elm.Transform2D.values = {_op: _op
-                             ,translation: translation
-                             ,scaleY: scaleY
-                             ,scaleX: scaleX
-                             ,scale: scale
-                             ,rotation: rotation
-                             ,multiply: multiply
+                             ,identity: identity
                              ,matrix: matrix
-                             ,identity: identity};
+                             ,multiply: multiply
+                             ,rotation: rotation
+                             ,translation: translation
+                             ,scale: scale
+                             ,scaleX: scaleX
+                             ,scaleY: scaleY};
    return _elm.Transform2D.values;
 };Elm.WebSocket = Elm.WebSocket || {};
 Elm.WebSocket.make = function (_elm) {
@@ -8440,18 +8440,18 @@ if (typeof window != 'undefined' && !window.location.origin) {
       (window.location.port ? (':' + window.location.port) : '');
 }
 
-Elm.fullscreenDebugHooks = function(module, hotSwapState /* =undefined */) {
+Elm.fullscreenDebugHooks = function(module, debuggerHistory /* =undefined */) {
   var exposedDebugger = {};
-  function debuggerAttach(module, hotSwapState) {
+  function debuggerAttach(module, debuggerHistory) {
     return {
       make: function(runtime) {
         var wrappedModule = debugModule(module, runtime);
-        exposedDebugger = debuggerInit(wrappedModule, runtime, hotSwapState);
+        exposedDebugger = debuggerInit(wrappedModule, runtime, debuggerHistory);
         return wrappedModule.debuggedModule;
       }
     }
   }
-  var mainHandle = Elm.fullscreen(debuggerAttach(module,hotSwapState));
+  var mainHandle = Elm.fullscreen(debuggerAttach(module, debuggerHistory));
   mainHandle.debugger = exposedDebugger;
   return mainHandle;
 };
@@ -8691,7 +8691,7 @@ function debugModule(module, runtime) {
   };
 }
 
-// The debuggerHistory variable is passed in on hotswap. It represents
+// The debuggerHistory variable is passed in on swap. It represents
 // the a state of the debugger for it to assume during init. It contains
 // the paused state of the debugger, the recorded events, and the current
 // event being processed.
@@ -8769,7 +8769,7 @@ function debuggerInit(debugModule, runtime, debuggerHistory /* =undefined */) {
     }
   }
 
-  function getHotSwapState() {
+  function getSwapState() {
     var continueIndex = currentEventIndex;
     if (!debugModule.getPaused()) {
       continueIndex = getMaxSteps();
@@ -8826,7 +8826,7 @@ function debuggerInit(debugModule, runtime, debuggerHistory /* =undefined */) {
       getMaxSteps: getMaxSteps,
       stepTo: stepTo,
       getPaused: debugModule.getPaused,
-      getHotSwapState: getHotSwapState,
+      getSwapState: getSwapState,
       dispose: dispose,
       allNodes: debugModule.signalGraphNodes,
       watchTracker: debugModule.watchTracker

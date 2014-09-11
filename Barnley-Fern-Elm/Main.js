@@ -125,7 +125,7 @@ Elm.Main.make = function (_elm) {
    false,
    500,
    initialPointsPerFrame);
-   var threshold = 2000;
+   var threshold = 1000;
    var nextState = F2(function (event,
    oldState) {
       return function () {
@@ -225,6 +225,7 @@ Elm.Gauge.make = function (_elm) {
    $moduleName = "Gauge",
    $Basics = Elm.Basics.make(_elm),
    $Color = Elm.Color.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
    $Graphics$Collage = Elm.Graphics.Collage.make(_elm),
    $Graphics$Element = Elm.Graphics.Element.make(_elm),
    $Mouse = Elm.Mouse.make(_elm),
@@ -280,12 +281,10 @@ Elm.Gauge.make = function (_elm) {
                                      _U.replace([["color"
                                                  ,$Color.red]],
                                      $Text.defaultStyle),
-                                     A2($Basics._op["."],
-                                     $Text.toText,
-                                     $String.show)(val)))))]);
+                                     $Text.toText($String.show(val))))))]);
               }();}
          _E.Case($moduleName,
-         "between lines 44 and 56");
+         "between lines 45 and 57");
       }();
    });
    var display = F2(function (_v4,
@@ -302,7 +301,7 @@ Elm.Gauge.make = function (_elm) {
               ,_1: _v4._1},
               gaugeState.x) : _L.fromArray([]));}
          _E.Case($moduleName,
-         "between lines 59 and 60");
+         "between lines 60 and 61");
       }();
    });
    var stepGauge = F2(function (_v8,
@@ -324,7 +323,7 @@ Elm.Gauge.make = function (_elm) {
                                  ,["mouseDown",false]],
                  gaugeState);}
             _E.Case($moduleName,
-            "between lines 28 and 33");
+            "between lines 29 and 34");
          }();
       }();
    });
@@ -374,10 +373,15 @@ Elm.Gauge.make = function (_elm) {
    stepGauge,
    defaultGauge,
    input);
-   var main = A3($Signal.lift2,
-   display,
-   $Window.dimensions,
-   gaugeState);
+   var main = function () {
+      var _ = A2($Debug.watch,
+      "gs",
+      gaugeState);
+      return A3($Signal.lift2,
+      display,
+      $Window.dimensions,
+      gaugeState);
+   }();
    _elm.Gauge.values = {_op: _op
                        ,MouseUp: MouseUp
                        ,MouseDown: MouseDown
@@ -415,6 +419,7 @@ Elm.Leaf.make = function (_elm) {
    $Generator$Standard = Elm.Generator.Standard.make(_elm),
    $Graphics$Collage = Elm.Graphics.Collage.make(_elm),
    $Graphics$Element = Elm.Graphics.Element.make(_elm),
+   $IntRange = Elm.IntRange.make(_elm),
    $List = Elm.List.make(_elm),
    $Signal = Elm.Signal.make(_elm),
    $Window = Elm.Window.make(_elm);
@@ -475,10 +480,10 @@ Elm.Leaf.make = function (_elm) {
                }();
             }();
          });
-         return A3($List.foldl,
+         return A3($IntRange.foldl,
          addPoints(dx),
          initState,
-         _L.range(0,num));
+         A2($IntRange.to,0,num));
       }();
    });
    var State = F2(function (a,b) {
@@ -520,9 +525,9 @@ Elm.Leaf.make = function (_elm) {
                return A3($Graphics$Collage.collage,
                  _v10._0,
                  _v10._1,
-                 A2(drawLeaf,0.5,1000));}
+                 A2(drawLeaf,0.84,1000));}
             _E.Case($moduleName,
-            "on line 64, column 25 to 55");
+            "on line 64, column 25 to 56");
          }();
       };
       return A2($Signal._op["<~"],
@@ -530,9 +535,11 @@ Elm.Leaf.make = function (_elm) {
       $Window.dimensions);
    }();
    _elm.Leaf.values = {_op: _op
-                      ,plotPoints: plotPoints
+                      ,initialState: initialState
                       ,nextState: nextState
-                      ,initialState: initialState};
+                      ,plotPoints: plotPoints
+                      ,main: main
+                      ,State: State};
    return _elm.Leaf.values;
 };Elm.Generator = Elm.Generator || {};
 Elm.Generator.Standard = Elm.Generator.Standard || {};
@@ -611,7 +618,7 @@ Elm.Generator.Standard.make = function (_elm) {
                         ,_1: A2(Standard,s1$$,s2$$)};
               }();}
          _E.Case($moduleName,
-         "between lines 59 and 67");
+         "between lines 58 and 66");
       }();
    };
    var stdSplit = function (_v6) {
@@ -621,7 +628,7 @@ Elm.Generator.Standard.make = function (_elm) {
             return function () {
                  var _raw = $Basics.snd(stdNext(_v6)),
                  $ = _raw.ctor === "Standard" ? _raw : _E.Case($moduleName,
-                 "on line 73, column 28 to 44"),
+                 "on line 72, column 28 to 44"),
                  t1 = $._0,
                  t2 = $._1;
                  var new_s2 = _U.eq(_v6._1,
@@ -633,7 +640,7 @@ Elm.Generator.Standard.make = function (_elm) {
                         ,_1: A2(Standard,t1,new_s2)};
               }();}
          _E.Case($moduleName,
-         "between lines 71 and 74");
+         "between lines 70 and 73");
       }();
    };
    var generator = function (seed) {
@@ -644,21 +651,7 @@ Elm.Generator.Standard.make = function (_elm) {
       stdRange);
    };
    _elm.Generator.Standard.values = {_op: _op
-                                    ,generator: generator
-                                    ,Standard: Standard
-                                    ,mkStdGen: mkStdGen
-                                    ,magicNum0: magicNum0
-                                    ,magicNum1: magicNum1
-                                    ,magicNum2: magicNum2
-                                    ,magicNum3: magicNum3
-                                    ,magicNum4: magicNum4
-                                    ,magicNum5: magicNum5
-                                    ,magicNum6: magicNum6
-                                    ,magicNum7: magicNum7
-                                    ,magicNum8: magicNum8
-                                    ,stdNext: stdNext
-                                    ,stdSplit: stdSplit
-                                    ,stdRange: stdRange};
+                                    ,generator: generator};
    return _elm.Generator.Standard.values;
 };Elm.Generator = Elm.Generator || {};
 Elm.Generator.make = function (_elm) {
@@ -761,7 +754,7 @@ Elm.Generator.make = function (_elm) {
                         generator)};
               }();}
          _E.Case($moduleName,
-         "between lines 76 and 89");
+         "between lines 73 and 86");
       }();
    });
    var floatRange = F2(function (_v5,
@@ -788,7 +781,7 @@ Elm.Generator.make = function (_elm) {
                         ,_1: generator$};
               }();}
          _E.Case($moduleName,
-         "between lines 120 and 125");
+         "between lines 117 and 122");
       }();
    });
    var $float = floatRange({ctor: "_Tuple2"
@@ -800,13 +793,11 @@ Elm.Generator.make = function (_elm) {
    _elm.Generator.values = {_op: _op
                            ,int32: int32
                            ,int32Range: int32Range
-                           ,iLogBase: iLogBase
-                           ,maxInt32: maxInt32
-                           ,minInt32: minInt32
                            ,$float: $float
                            ,floatRange: floatRange
                            ,listOf: listOf
-                           ,listOfHelp: listOfHelp
+                           ,minInt32: minInt32
+                           ,maxInt32: maxInt32
                            ,Generator: Generator};
    return _elm.Generator.values;
 };Elm.IntRange = Elm.IntRange || {};

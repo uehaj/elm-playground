@@ -1,5 +1,4 @@
-<!DOCTYPE HTML>
-<html><head><meta charset="UTF-8"><title>Gauge</title><script type="text/javascript" src="./runtime/elm-runtime.js"></script><script type="text/javascript">Elm.Gauge = Elm.Gauge || {};
+Elm.Gauge = Elm.Gauge || {};
 Elm.Gauge.make = function (_elm) {
    "use strict";
    _elm.Gauge = _elm.Gauge || {};
@@ -189,4 +188,4 @@ Elm.Gauge.make = function (_elm) {
                        ,gaugeState: gaugeState
                        ,main: main};
    return _elm.Gauge.values;
-};</script></head><body><script type="text/javascript">Elm.fullscreen(Elm.Gauge)</script><noscript></noscript></body></html>
+};
