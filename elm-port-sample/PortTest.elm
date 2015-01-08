@@ -19,4 +19,5 @@ port evalOut = btnInp.signal
 
 main : Signal Element
 main = let disp cont bname = flow down [fld cont, btn cont, plainText bname]
-       in disp <~ inp.signal ~ evalIn
+      in disp <~ inp.signal ~ evalIn
+
