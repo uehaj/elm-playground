@@ -1,2 +1,2 @@
-elm-get install
+elm make
 elm --make --only-js HtmlTest.elm
